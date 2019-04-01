@@ -1,6 +1,7 @@
 ﻿import Vue from 'vue';
 import $ from 'jquery';
 import * as Utils  from './utils';
+import en from 'vee-validate/dist/locale/en';
 import VeeValidate, { Validator } from 'vee-validate';
 Vue.use(VeeValidate);
 Validator.localize('en', en);
@@ -21,11 +22,11 @@ var app = new application();
 // .............................................................................
 
 application.prototype.save = async function(data, fname, fdate, gender) {
-    var d =  data.map(el => {return el.answer});
+    //var d =  data.map(el => {return el.answer});
     var fn = Utils.escape_RegExp(fname);
     var fd = Utils.escape_RegExp(fdate);
     var p = {
-        data: d,
+        data: data,
         fname: fn,
         fdate: fd,
         gender: gender

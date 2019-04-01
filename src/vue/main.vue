@@ -1,11 +1,12 @@
 ﻿<template>
-<div class="container">
+<div>
 <div v-if="admin_mode">
         <div>
         <button class="btn-primary mbtn" @click="restart()">Restart</button>
         </div>
 </div>
-<div v-else>    
+<div v-else="">  
+    <div class="progress-wrapper">
     progress
     <div id="progress">
         <span :class="state<2?'progress':'progress progress2'" id="spp0"> </span>
@@ -20,24 +21,21 @@
         <span :class="state<11?'progress':'progress progress2'" id="spp9""> </span>
        
     </div>
+    </div>
     
     <div v-if="state<11">
-    <div>
-        Name: <input type="text" name="fname" v-model="fname" v-validate="'required'"/>        
-        Date: <input type="date"  name="fdate" 
-            v-model="fdate" style="-webkit-appearance: menulist"/>
-        Gender: 
-        <input type="radio" id="g_one" value="Female" v-model="gender" />
+    <div class="inputs">
+        Name <input type="text" name="fname" v-model="fname" v-validate="'required'"/>        
+        Date <input type="date"  name="fdate" 
+            v-model="fdate" style="width:12em;-webkit-appearance: menulist"/>
+                <input type="radio" id="g_one" value="Female" v-model="gender" />
             <label for="g_one">Female</label>
         <input type="radio" id="g_two" value="Male" v-model="gender" />
         <label for="g_two">Male</label>
-
-    <span>Selected: {{ gender }}</span>
-        
-        
+                   
     </div>
     <div class="quest">
-        Question {{state}} {{qData[state-1].text}}
+         {{state}}) {{qData[state-1].text}}
     </div>
     <div class="ynb">
     <div>
@@ -47,18 +45,26 @@
         <button  :class="qData[state-1].answer=='no'?'btn-primary mbtn':'btn-secondary mbtn'" @click="fno()">No</button>        
     </div>
     </div>
-    <button class="btn-primary mbtn" @click="prev(state)">Previous</button>
-    <button class="btn-primary mbtn" @click="nxt(state)">Next</button>
+    <div class="pnb">
+        <div class="pnbp">
+        <button class="btn-primary mbtn" @click="prev(state)">Previous</button>
+        </div>
+        <div class="pnbn">
+        <button class="btn-primary mbtn" @click="nxt(state)">Next</button>
+        </div>
+        <div class="clear"></div>
     </div>
-    <div v-else>
-        END!!
-        Return DEVICE!!
+    </div>
+    
+    <div v-else="">
+        
+        Plese return device to your healthcare provider
         <div>
-        <button class="btn-primary mbtn" @click="toadmin()">Admin</button>
+        <button class="btn-primary mbtn" @click="toadmin()">Provider login</button>
         </div>
     </div>
 
-<div style="text-align: center">
+<div  class="logo">
     <img src="img/ORTlogo.png" width="200" />
 </div>
 </div>
@@ -67,7 +73,7 @@
 
     <script>
     
-import {app} from '../app/app';
+import {app, Vue} from '../app/app';
     
 export default {
     data: function() {
@@ -128,15 +134,30 @@ export default {
             }
         },
         nxt: function(st) {
-            if(!this.qData[this.state-1].answer) {
-                alert('Click Yes or No');
+            if(this.gender === '') {
+                Vue.dialog.alert('Please choose your gender');
                 return;
             }
-            if(st < 10) {
-                this.state = st + 1;
-            } else {
-                this.state = 11;
+            if(this.fname === '') {
+                Vue.dialog.alert('Please enter your name');
+                return;
             }
+            if(this.fdate === '') {
+                Vue.dialog.alert('Please enter  date');
+                return;
+            }
+            
+
+                if(!this.qData[this.state-1].answer) {
+                    Vue.dialog.alert('Click Yes or No');
+                    return;
+                }
+                if(st < 10) {
+                    this.state = st + 1;
+                } else {
+                    this.state = 11;
+                }
+            
         },
         fyes: function() {
             if (this.state > 0 && this.state < 11)
@@ -148,7 +169,11 @@ export default {
             if (this.state > 0 && this.state < 11)
                 this.qData[this.state-1].answer = 'no';
         },
-        toadmin: function() {
+        toadmin: async function() {
+            var res = await this.login();
+            if(! res) {
+                return;
+            }
             var saveresult = app.save(
                 
                     this.qData, 
@@ -162,7 +187,40 @@ export default {
         restart: function() {
             this.admin_mode = false;
             this.state = 1;
+            this.fname = '';
+            this.fdate = '';
+            this.gender = '';
             this.qData.map(d => d.answer = false);
+        },
+        
+        login: function() {
+            var res = false;
+            var pstr = '111';
+            console.log('L1');
+            
+            return new Promise((resolve, reject) => {
+            
+            this.$dialog
+                .prompt({
+                    title: "Log in",
+                    body: "Provider password",
+                    promptHelp: 'Type it and click "[+:okText]"'
+                })
+                .then(dialog => {
+                    if(
+                        dialog.data === pstr) {
+                        console.log('L2');
+                        resolve(true);
+                    }
+                    else {
+                       resolve(false);
+                    }
+                })
+                .catch(() => { 
+                    console.log('Prompt dismissed');
+                    reject(false);
+                });            
+            });            
         }
     }
 }

@@ -41,13 +41,18 @@ function save_pdf($r) {
     
     $filename = '../saved/'.$fname."_" .$fdate;
     file_put_contents($filename, print_r($data,  true));
-    
+    $g = '';
+    if($gender === '') {
+        $g = '';
+    } else {
+        $g = substr($gender, 0, 1);
+    }
     
     $pdf = new FPDF();
     $pdf->AddPage();
     $pdf->SetFont('Arial','B',16);
     $pdf -> Cell(0, 18, 'Opioid Risk Tool (' . $gender . ')', 0, 1, 'C');
-    $pdf -> Cell(0, 18, '[ORTF]', 0, 1, 'C');
+    $pdf -> Cell(0, 18, '[ORT'.$g.']', 0, 1, 'C');
     //$pdf->Output('F', $filename . '.pdf', true);
     $pdf->SetFont('Arial','',11);
     $pdf -> Cell(0, 14, 'Patient: ' . $fname, 0, 1, 'L');

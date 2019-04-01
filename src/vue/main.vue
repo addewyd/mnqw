@@ -1,6 +1,21 @@
 ﻿<template>
 <div>
+    <div class="top">
+        Opioid Risk Tool<span v-if="gender"> ({{gender}})</span>
+        <br />
+        <span v-if="gender">
+            [ORT{{gender[0]}}]
+        </span>
+        <span v-else="">
+            [ORT]
+        </span>
+    </div>    
 <div v-if="admin_mode">
+    
+    <div v-for="f in pdffiles">
+        {{f}}
+    </div>
+    
         <div>
         <button class="btn-primary mbtn" @click="restart()">Restart</button>
         </div>
@@ -9,16 +24,16 @@
     <div class="progress-wrapper">
     progress
     <div id="progress">
-        <span :class="state<2?'progress':'progress progress2'" id="spp0"> </span>
-        <span :class="state<3?'progress':'progress progress2'" id="spp1"> </span>
-        <span :class="state<4?'progress':'progress progress2'" id="spp2"> </span>
-        <span :class="state<5?'progress':'progress progress2'" id="spp3"> </span>
-        <span :class="state<6?'progress':'progress progress2'" id="spp4"> </span>
-        <span :class="state<7?'progress':'progress progress2'" id="spp5"> </span>
-        <span :class="state<8?'progress':'progress progress2'" id="spp6"> </span>
-        <span :class="state<9?'progress':'progress progress2'" id="spp7"> </span>
-        <span :class="state<10?'progress':'progress progress2'" id="spp8"> </span>
-        <span :class="state<11?'progress':'progress progress2'" id="spp9""> </span>
+        <span :class="state<1?'progress pl':'progress pl progress2'" id="spp0"> </span>
+        <span :class="state<2?'progress':'progress progress2'" id="spp1"> </span>
+        <span :class="state<3?'progress':'progress progress2'" id="spp2"> </span>
+        <span :class="state<4?'progress':'progress progress2'" id="spp3"> </span>
+        <span :class="state<5?'progress':'progress progress2'" id="spp4"> </span>
+        <span :class="state<6?'progress':'progress progress2'" id="spp5"> </span>
+        <span :class="state<7?'progress':'progress progress2'" id="spp6"> </span>
+        <span :class="state<8?'progress':'progress progress2'" id="spp7"> </span>
+        <span :class="state<9?'progress':'progress progress2'" id="spp8"> </span>
+        <span :class="state<10?'progress pr':'progress pr progress2'" id="spp9""> </span>
        
     </div>
     </div>
@@ -79,6 +94,7 @@ export default {
     data: function() {
         return {
             admin_mode: false,
+            pdffiles: [],
             state: 1,
             fname: '',
             fdate: '',
@@ -174,7 +190,7 @@ export default {
             if(! res) {
                 return;
             }
-            var saveresult = app.save(
+            var saveresult = await app.save(
                 
                     this.qData, 
                     this.fname, 
@@ -182,6 +198,8 @@ export default {
                     this.gender
                 
             );
+                this.pdffiles = saveresult.files;
+            console.log('p', this.pdffiles);
             this.admin_mode = true;
         },
         restart: function() {
@@ -196,7 +214,6 @@ export default {
         login: function() {
             var res = false;
             var pstr = '111';
-            console.log('L1');
             
             return new Promise((resolve, reject) => {
             
@@ -209,7 +226,7 @@ export default {
                 .then(dialog => {
                     if(
                         dialog.data === pstr) {
-                        console.log('L2');
+                        //console.log('L2');
                         resolve(true);
                     }
                     else {

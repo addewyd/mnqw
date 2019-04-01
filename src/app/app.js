@@ -37,7 +37,7 @@ application.prototype.save = async function(data, fname, fdate, gender) {
         $.ajax({url:'cntr/gwdata.php', type:'POST',data:p, dataType:'json'}).
         done(function(data){
             console.log(data);
-            resolve(data['result']);
+            resolve(data);
         }).
         fail(function(e) { 
             console.log('ajax error', e);

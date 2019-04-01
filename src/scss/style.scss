@@ -2,11 +2,19 @@
 
 
 #progress {
-    width: 100%;
+    width: 102%;
     height: 2em;
     background: #eeeeee;
+    margin: 3px;
 }
 
+div.top {
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-size: 200%;
+    padding:0.5em;
+}
 .wmarg {
     /*
     margin-left:1em;
@@ -17,23 +25,35 @@
 
 span.progress {
     display: inline-block;
-    width: 9%;
+    width: 9.8%;
     border-radius: 0;
-    margin: -3px;
+    margin: -2px;
     padding: 0;
 }
+
+span.pl {
+    border-top-left-radius: 9px;
+    border-bottom-left-radius: 9px;
+}
+
+span.pr {
+    border-top-right-radius: 9px;
+    border-bottom-right-radius: 9px;
+    
+}
+
 span.progress2 {
     background: #0e0eee;
 }
 
 div.ynb {
     text-align: center;
-    margin-left: 2em;
-    margin-bottom: 0.5em;
+    margin-left: 0em;
+    margin-bottom: 2.5em;
 }
 
 button.mbtn {
-    width: 150px;
+    width: 250px;
     padding-left: 10px;
     padding-right: 10px;
     margin: 10px;
@@ -41,15 +61,17 @@ button.mbtn {
 }
 
 div.inputs {
-    margin: 1em;    
+    margin: 1.5em;    
 }
 
 div.quest {
     padding: 1em;
     margin: 1em;
-    height: 4.5em;
-    font-size: 120%;
+    height: 5.5em;
+    font-size: 140%;
     font-weight: bold;
+    background-color: black;
+    color: white;
 }
 
 div.progress-wrapper {

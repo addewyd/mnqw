@@ -13,6 +13,13 @@ function returnResult ($answer) {
         echo json_encode($answer);
 }
 
+function getpdflist($n) {
+    $files = glob('../saved/*.pdf');
+    usort($files, function($a, $b) {
+        return filemtime($a) < filemtime($b);
+    });
+    return $files;
+}
 
 function gwdata($r) {
     $res = '';
@@ -21,14 +28,15 @@ function gwdata($r) {
             //$fn = $r['fname'];
             //file_put_contents('../saved/s', print_r($r,  true));
             $fn = save_pdf($r);
-            $res = ['result' => $fn, 'req' => $r];
+            $files = getpdflist(10);
+            $res = ['result' => $fn, 'req' => $r, 'files' => $files];
         } else {
-            $res = ['result' => "bad file name", 'req' => $r];
+            $res = ['result' => "bad file name", 'req' => $r, 'files' => $files];
         }
     }
     catch(Exception $e)
     {
-        $res = ['result' => $e, 'req' => $r];
+        $res = ['result' => $e, 'req' => $r, 'files' => []];
     }
     returnResult($res);
 }
@@ -40,7 +48,7 @@ function save_pdf($r) {
     $gender = $r['gender'];
     
     $filename = '../saved/'.$fname."_" .$fdate;
-    file_put_contents($filename, print_r($data,  true));
+    //file_put_contents($filename, print_r($data,  true));
     $g = '';
     if($gender === '') {
         $g = '';
@@ -74,6 +82,7 @@ function save_pdf($r) {
     
     $s = $pdf->Output('S', $filename . '.pdf', true);
     file_put_contents($filename . '.pdf', $s);
+    return $filename;
 }
 
 gwdata($_REQUEST);

@@ -1,0 +1,38 @@
+﻿@import "~bootstrap/scss/bootstrap";
+
+
+#progress {
+    width: 100%;
+    height: 20px;
+    background: #eeeeee;
+}
+
+span.progress {
+    display: inline-block;
+    width: 9%;
+    border-radius: 0;
+    margin: -3px;
+    padding: 0;
+}
+span.progress2 {
+    background: #0e0eee;
+}
+
+div.ynb {
+    text-align: center;
+    margin-left: 2em;
+}
+
+button.mbtn {
+    width: 150px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 10px;
+    
+}
+
+div.quest {
+    padding: 10px 10px 10px 10px;
+    font-size: 120%;
+    font-weight: bold;
+}

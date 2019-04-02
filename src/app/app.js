@@ -21,15 +21,18 @@ var app = new application();
 
 // .............................................................................
 
-application.prototype.save = async function(data, fname, fdate, gender) {
+application.prototype.save = async function(data, fname, fdate, gender, dur) {
     //var d =  data.map(el => {return el.answer});
     var fn = Utils.escape_RegExp(fname);
     var fd = Utils.escape_RegExp(fdate);
+    console.log('s-e', dur);
+
     var p = {
         data: data,
         fname: fn,
         fdate: fd,
-        gender: gender
+        gender: gender,
+        dur: dur
     };
     console.log('save', p);
     return new Promise((resolve, reject) => {

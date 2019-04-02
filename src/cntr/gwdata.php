@@ -30,6 +30,9 @@ function gwdata($r) {
             $fn = save_pdf($r);
             $files = getpdflist(10);
             $res = ['result' => $fn, 'req' => $r, 'files' => $files];
+        }
+        if(isset($r['init'])) {
+            $res = ['result' => trim(file_get_contents('pass'))];
         } else {
             $res = ['result' => "bad file name", 'req' => $r, 'files' => $files];
         }

@@ -19,13 +19,30 @@ function application() {
 
 var app = new application();
 
+application.prototype.init = async function() {
+    var p = {
+        init: 1
+    };
+    return new Promise((resolve, reject) => {
+
+        $.ajax({url:'cntr/gwdata.php', type:'POST',data:p, dataType:'json'}).
+        done(function(data){
+            //console.log(data);
+            resolve(data);
+        }).
+        fail(function(e) { 
+            console.log('ajax error', e);
+            reject(e);
+        });  
+    });    
+}
+
 // .............................................................................
 
 application.prototype.save = async function(data, fname, fdate, gender, dur) {
     //var d =  data.map(el => {return el.answer});
     var fn = Utils.escape_RegExp(fname);
     var fd = Utils.escape_RegExp(fdate);
-    console.log('s-e', dur);
 
     var p = {
         data: data,

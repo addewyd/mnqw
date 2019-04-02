@@ -91,11 +91,12 @@
     <script>
     
 import {app, Vue} from '../app/app';
-    
+import * as Utils  from '../app/utils';
 export default {
     data: function() {
         return {
             admin_mode: false,
+            p: '',
             pdffiles: [],
             state: 1,
             fname: '',
@@ -168,6 +169,10 @@ export default {
             ]
         };
     },
+    mounted: async function() {
+        var pp = await app.init();
+        this.p = pp['result'];
+    },
     methods: {
         prev: function(st) {
             if(st > 1) {
@@ -203,14 +208,12 @@ export default {
                     this.state = 11;
                 }
                 this.endt = Math.floor(new Date() / 1000);
-                console.log('e', this.endt);
+                //console.log('e', this.endt);
             
         },
         fyes: function() {
             if (this.state > 0 && this.state < 11)
                 this.qData[this.state-1].answer = 'yes';
-                
-            // console.log(this.qData);
         },
         fno: function() {
             if (this.state > 0 && this.state < 11)
@@ -247,11 +250,10 @@ export default {
             this.pdffiles = p.slice(0,30).map(
                 a => {
                     var n = a.split('/').pop();
-                    //return '<a href="' + a + '">' + n + '</a>';
+                    
                     return ['saved/'+n, n];
                 }
             );
-            console.log('p', this.pdffiles);
             this.admin_mode = true;
         },
         restart: function() {
@@ -265,7 +267,8 @@ export default {
         
         login: function() {
             var res = false;
-            var pstr = '111';
+            //var pstr = '111';
+            var pstr = this.p;
             
             return new Promise((resolve, reject) => {
             
@@ -276,9 +279,8 @@ export default {
                     promptHelp: 'Type it and click "[+:okText]"'
                 })
                 .then(dialog => {
-                    if(
-                        dialog.data === pstr) {
-                        //console.log('L2');
+                    var pp = 'm'+Utils.md5(dialog.data);
+                    if(pp == 'm'+pstr) {
                         resolve(true);
                     }
                     else {

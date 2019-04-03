@@ -51,12 +51,10 @@ application.prototype.save = async function(data, fname, fdate, gender, dur) {
         gender: gender,
         dur: dur
     };
-    console.log('save', p);
     return new Promise((resolve, reject) => {
 
         $.ajax({url:'cntr/gwdata.php', type:'POST',data:p, dataType:'json'}).
         done(function(data){
-            console.log(data);
             resolve(data);
         }).
         fail(function(e) { 

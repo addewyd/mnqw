@@ -41,13 +41,17 @@
     
     <div v-if="state<11">
     <div class="inputs">
-        Name <input type="text" name="fname" v-model="fname" v-validate="'required'"/>        
-        Date <input type="date"  name="fdate" 
-            v-model="fdate" style="width:12em;-webkit-appearance: menulist"/>
-                <input type="radio" id="g_one" value="Female" v-model="gender" />
-            <label for="g_one">Female</label>
-        <input type="radio" id="g_two" value="Male" v-model="gender" />
+        <label for="g_name">Name</label>
+        <input type="text" id="g_name" name="fname" v-model="fname" style="margin: 0 1em;"
+            v-validate="'required'"/>        
+        <label for="g_date">Date</label>
+        <input type="date" id="g_date" name="fdate" 
+            v-model="fdate" style="margin: 0 1em;width:12em;-webkit-appearance: menulist"/>
+        
+        <label for="g_one">Female</label>
+        <input type="radio" id="g_one" value="Female" v-model="gender" />
         <label for="g_two">Male</label>
+        <input type="radio" id="g_two" value="Male" v-model="gender" />
                    
     </div>
     <div class="quest">
@@ -200,7 +204,6 @@ export default {
                 }
                 if(st < 2) {
                     this.startt = Math.floor(new Date() / 1000);
-                    console.log('s', this.startt);
                 }
                 if(st < 10) {
                     this.state = st + 1;
@@ -208,7 +211,6 @@ export default {
                     this.state = 11;
                 }
                 this.endt = Math.floor(new Date() / 1000);
-                //console.log('e', this.endt);
             
         },
         fyes: function() {
@@ -236,7 +238,6 @@ export default {
                     return 0;
                 }
             }, 0);
-            console.log('score', score);
             this.score = score;
             var saveresult = await app.save(
                 
@@ -288,8 +289,8 @@ export default {
                     }
                 })
                 .catch(() => { 
-                    console.log('Prompt dismissed');
-                    reject(false);
+                    //console.log('Prompt dismissed');
+                    resolve(false);
                 });            
             });            
         }

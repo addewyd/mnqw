@@ -27,11 +27,10 @@ application.prototype.init = async function() {
 
         $.ajax({url:'cntr/gwdata.php', type:'POST',data:p, dataType:'json'}).
         done(function(data){
-            //console.log(data);
             resolve(data);
         }).
         fail(function(e) { 
-            console.log('ajax error', e);
+            console.log('init - ajax error', e);
             reject(e);
         });  
     });    
@@ -58,7 +57,7 @@ application.prototype.save = async function(data, fname, fdate, gender, dur) {
             resolve(data);
         }).
         fail(function(e) { 
-            console.log('ajax error', e);
+            console.log('save ajax error', e);
             reject(e);
         });  
     });

@@ -289,7 +289,7 @@ export default {
                     }
                 })
                 .catch(() => { 
-                    //console.log('Prompt dismissed');
+                    console.log('Prompt dismissed');
                     resolve(false);
                 });            
             });            

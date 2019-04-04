@@ -38,7 +38,7 @@ application.prototype.init = async function() {
 
 // .............................................................................
 
-application.prototype.save = async function(data, fname, fdate, gender, dur) {
+application.prototype.save = async function(data, fname, fdate, gender, dur, score) {
     //var d =  data.map(el => {return el.answer});
     var fn = Utils.escape_RegExp(fname);
     var fd = Utils.escape_RegExp(fdate);
@@ -48,7 +48,8 @@ application.prototype.save = async function(data, fname, fdate, gender, dur) {
         fname: fn,
         fdate: fd,
         gender: gender,
-        dur: dur
+        dur: dur,
+        score: score
     };
     return new Promise((resolve, reject) => {
 

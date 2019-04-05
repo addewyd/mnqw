@@ -66,12 +66,13 @@ application.prototype.save = async function(data, fname, fdate, gender, dur, sco
 
 // .............................................................................
 
+
+
 new Vue({
   el: '#app-main-top',
   components: {
     'app-main-top': MainTop
   }
 });
-
 
 export /*default*/ {app, Vue};

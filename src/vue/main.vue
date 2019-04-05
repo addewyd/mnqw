@@ -25,23 +25,11 @@
     <div class="progress-wrapper">
     progress
     <div id="progress">
-        <!--
-        <span :class="state<1?'progress pl':'progress pl progress2'" id="spp0"> </span>
-        <span :class="state<2?'progress':'progress progress2'" id="spp1"> </span>
-        <span :class="state<3?'progress':'progress progress2'" id="spp2"> </span>
-        <span :class="state<4?'progress':'progress progress2'" id="spp3"> </span>
-        <span :class="state<5?'progress':'progress progress2'" id="spp4"> </span>
-        <span :class="state<6?'progress':'progress progress2'" id="spp5"> </span>
-        <span :class="state<7?'progress':'progress progress2'" id="spp6"> </span>
-        <span :class="state<8?'progress':'progress progress2'" id="spp7"> </span>
-        <span :class="state<9?'progress':'progress progress2'" id="spp8"> </span>
-        <span :class="state<10?'progress pr':'progress pr progress2'" id="spp9""> </span>
-        -->
-    <span :style="'width:'+(10*(state-1))+'%;background-color:#0e0eee;display:inline-block;height:100%;border-radius:6px/50%'"> </span>
+        <span :style="'width:'+(qLen*(state-1))+'%;background-color:#0e0eee;display:inline-block;height:100%;border-radius:6px/50%'"> </span>
     </div>
     </div>
     
-    <div v-if="state<11">
+    <div v-if="state<1+qLen">
     <div class="inputs" v-if="show_inputs">
         <label for="g_name">Name</label>
         <input type="text" id="g_name" name="fname" v-model="fname" style="margin: 0 1em;"
@@ -178,10 +166,12 @@ export default {
                     scoref: 1,
                     scorem: 1
                 }
-            ]
+            ],
+            qLen: 0
         };
     },
     mounted: async function() {
+        this.qLen = this.qData.length;
         var pp = await app.init();
         this.p = pp['result'];
         var d = new Date();
@@ -222,20 +212,20 @@ export default {
                 if(st < 2) {
                     this.startt = Math.floor(new Date() / 1000);
                 }
-                if(st < 10) {
+                if(st < this.qLen) {
                     this.state = st + 1;
                 } else {
-                    this.state = 11;
+                    this.state = this.qLen + 1;
                 }
                 this.endt = Math.floor(new Date() / 1000);
             
         },
         fyes: function() {
-            if (this.state > 0 && this.state < 11)
+            if (this.state > 0 && this.state < 1 + this.qLen)
                 this.qData[this.state-1].answer = 'yes';
         },
         fno: function() {
-            if (this.state > 0 && this.state < 11)
+            if (this.state > 0 && this.state < 1 + this.qLen)
                 this.qData[this.state-1].answer = 'no';
         },
         toadmin: async function() {

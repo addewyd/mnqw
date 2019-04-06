@@ -31,17 +31,17 @@
     
     <div v-if="state<1+qLen">
     <div class="inputs" v-if="show_inputs">
-        <label for="g_name">Name</label>
+        <label for="g_name">Patient </label>
         <input type="text" id="g_name" name="fname" v-model="fname" style="margin: 0 1em;"
             v-validate="'required'"/>
         <span v-if="show_date">
-        <label for="g_date">Date</label>
+        <label for="g_date">Date </label>
         <input type="date" id="g_date" name="fdate" 
             v-model="fdate" style="margin: 0 1em;width:12em;-webkit-appearance: menulist"/>
         </span>
-        <label for="g_one">Female</label>
+        <label for="g_one">Female </label>
         <input type="radio" id="g_one" value="Female" v-model="gender" />
-        <label for="g_two">Male</label>
+        <label for="g_two">Male </label>
         <input type="radio" id="g_two" value="Male" v-model="gender" />
         <button @click="hideinputs()">Hide</button>
     </div>
@@ -143,7 +143,7 @@ export default {
                     scorem: 5
                 },
                 {
-                    text: 'Family history of substance abuse between 16 years old and 45 years old?',
+                    text: 'Are you between 16 years old and 45 years old?',
                     answer: false,
                     scoref: 1,
                     scorem: 1
@@ -155,13 +155,13 @@ export default {
                     scorem: 0
                 },
                 {
-                    text: 'Psychologic Desease: ADD, OCD, bipolar, schizophrenia',
+                    text: 'Psychological Disease:  Do you have a history of ADD, OCD, Bipolar Disease, or Schizophrenia?',
                     answer: false,
                     scoref: 2,
                     scorem: 2
                 },
                 {
-                    text: 'Psychologic Desease: Depression',
+                    text: 'Psychological Disease: Do you have a history of Depression?',
                     answer: false,
                     scoref: 1,
                     scorem: 1

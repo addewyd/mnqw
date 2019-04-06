@@ -180,7 +180,7 @@ function save_pdf($r) {
     
     $s = $pdf->Output('S', $filename . '', true);
     file_put_contents($filename . '_ort_grading.pdf', $s);
-    
+ /*   
     $pdf = new FPDF();
     $pdf->AddPage();
     $pdf->SetFont('Arial','B',16);
@@ -238,7 +238,7 @@ function save_pdf($r) {
     
     $s = $pdf->Output('S', $filename . '', true);
     file_put_contents($filename . '_ort.pdf', $s);
-    
+ */   
     return $filename;
     
 }

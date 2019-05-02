@@ -9,7 +9,7 @@
         <span v-else="">
             [ORT]
         </span>
-    </div>    
+    </div>
 <div v-if="admin_mode">
     Score: {{score}} ({{gender}})
     <div v-if="showlist" style="margin: 1em">
@@ -18,17 +18,17 @@
         </div>
     </div>
         <div class="ret">
-        <button class="btn-primary mbtn" @click="restart()">Restart</button>
+        <button id="b_restart" class="btn-primary mbtn" @click="restart()">Restart</button>
         </div>
 </div>
-<div v-else="">  
+<div v-else="">
     <div class="progress-wrapper">
     progress
     <div id="progress">
         <span :style="'width:'+(qLen*(state-1))+'%;background-color:#0e0eee;display:inline-block;height:100%;border-radius:6px/50%'"> </span>
     </div>
     </div>
-    
+
     <div v-if="state<1+qLen">
     <div class="inputs" v-if="show_inputs">
         <label for="g_name">Patient </label>
@@ -36,7 +36,7 @@
             v-validate="'required'"/>
         <span v-if="show_date">
         <label for="g_date">Date </label>
-        <input type="date" id="g_date" name="fdate" 
+        <input type="date" id="g_date" name="fdate"
             v-model="fdate" style="margin: 0 1em;width:12em;-webkit-appearance: menulist"/>
         </span>
         <label for="g_one">Female </label>
@@ -50,31 +50,31 @@
     </div>
     <div class="ynb">
     <div>
-        <button :class="qData[state-1].answer=='yes'?'btn-primary mbtn':'btn-secondary mbtn'" 
-            @click="fyes()">Yes</button>        
+        <button id="b_yea" :class="qData[state-1].answer=='yes'?'btn-primary mbtn':'btn-secondary mbtn'"
+            @click="fyes()">Yes</button>
     </div>
     <div>
-        <button  :class="qData[state-1].answer=='no'?'btn-primary mbtn':'btn-secondary mbtn'" 
-            @click="fno()">No</button>        
+        <button id="b_no" :class="qData[state-1].answer=='no'?'btn-primary mbtn':'btn-secondary mbtn'"
+            @click="fno()">No</button>
     </div>
     </div>
     <div class="pnb">
         <div class="pnbp">
-        <button class="btn-primary mbtn" @click="prev(state)">Previous</button>
+        <button id="b_prev" class="btn-primary mbtn" @click="prev(state)">Previous</button>
         </div>
         <div class="pnbn">
-        <button class="btn-primary mbtn" @click="nxt(state)">Next</button>
+        <button id="b_next" class="btn-primary mbtn" @click="nxt(state)">Next</button>
         </div>
         <div class="clear"></div>
     </div>
     </div>
-    
+
     <div v-else="">
         <div class="ret">
         Please return device to your healthcare provider
         </div>
         <div class="ret">
-        <button class="btn-primary mbtn" @click="toadmin()">Provider login</button>
+        <button id="b_ret" class="btn-primary mbtn" @click="toadmin()">Provider login</button>
         </div>
     </div>
 
@@ -86,7 +86,7 @@
 </template>
 
     <script>
-    
+
 import {app, Vue} from '../app/app';
 import * as Utils  from '../app/utils';
 export default {
@@ -203,7 +203,7 @@ export default {
              //   Vue.dialog.alert('Please enter  date');
              //   return;
             }
-            
+
 
                 if(!this.qData[this.state-1].answer) {
                     Vue.dialog.alert('Click Yes or No');
@@ -218,7 +218,7 @@ export default {
                     this.state = this.qLen + 1;
                 }
                 this.endt = Math.floor(new Date() / 1000);
-            
+
         },
         fyes: function() {
             if (this.state > 0 && this.state < 1 + this.qLen)
@@ -233,7 +233,7 @@ export default {
             if(! res) {
                 return;
             }
-            
+
             var score = this.qData.reduce((a, b) => {
                 if(this.gender === 'Male') {
                     return a + (b.answer === 'yes'? b.scorem : 0);
@@ -247,19 +247,19 @@ export default {
             }, 0);
             this.score = score;
             var saveresult = await app.save(
-                
-                    this.qData, 
-                    this.fname, 
+
+                    this.qData,
+                    this.fname,
                     this.fdate,
                     this.gender,
                     this.endt - this.startt,
-                    this.score                
+                    this.score
             );
             var p = saveresult.files
             this.pdffiles = p.slice(0,30).map(
                 a => {
                     var n = a.split('/').pop();
-                    
+
                     return ['saved/'+n, n];
                 }
             );
@@ -274,14 +274,14 @@ export default {
             this.gender = '';
             this.qData.map(d => d.answer = false);
         },
-        
+
         login: function() {
             var res = false;
             //var pstr = '111';
             var pstr = this.p;
-            
+
             return new Promise((resolve, reject) => {
-            
+
             this.$dialog
                 .prompt({
                     title: "Log in",
@@ -297,11 +297,11 @@ export default {
                        resolve(false);
                     }
                 })
-                .catch(() => { 
+                .catch(() => {
                     console.log('Prompt dismissed');
                     resolve(false);
-                });            
-            });            
+                });
+            });
         }
     }
 }

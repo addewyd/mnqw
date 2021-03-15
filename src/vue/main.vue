@@ -229,10 +229,10 @@ export default {
                 this.qData[this.state-1].answer = 'no';
         },
         toadmin: async function() {
-            var res = await this.login();
-            if(! res) {
-                return;
-            }
+//            var res = await this.login();
+  //          if(! res) {
+    //            return;
+      //      }
 
             var score = this.qData.reduce((a, b) => {
                 if(this.gender === 'Male') {
@@ -263,6 +263,11 @@ export default {
                     return ['saved/'+n, n];
                 }
             );
+            var res = await this.login();
+            if(! res) {
+               return;
+            }
+
             this.admin_mode = true;
         },
         restart: function() {

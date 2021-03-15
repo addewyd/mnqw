@@ -5,7 +5,7 @@ function DrawTable($header, $data, $t)
 {
     // Column widths
     //$w = array(40, 35, 40, 45);
-    
+
     // Header
         $t->SetFont('Arial','B', 9);
 
@@ -45,8 +45,9 @@ function save_pdf($r) {
     $fdate = $r['fdate'];
     $data = $r['data'];
     $gender = $r['gender'];
-    
-    $filename = 'tst'.$fname."_" .$fdate;
+    $dd = date_create();
+    $ddate = date_format($dd, "Ymd-His");
+    $filename = 'tst'.$fname."_" .$ddate;
     //file_put_contents($filename, print_r($data,  true));
     $g = '';
     if($gender === '') {
@@ -54,7 +55,7 @@ function save_pdf($r) {
     } else {
         $g = substr($gender, 0, 1);
     }
-    
+
     $pdf = new FPDF();
     $pdf->AddPage();
     $pdf->SetFont('Arial','B',16);
@@ -94,17 +95,17 @@ function save_pdf($r) {
     $pdf -> Cell(0, 8, '2) Describe the pertinent...', 0, 1, 'L');
     $pdf -> Cell(0, 8, '3) Please state...', 0, 1, 'L');
 
-    
+
     $pdf->SetFont('Arial','B',14);
     $pdf -> Cell(0, 10, 'QUESTIONS', 0, 1, 'L');
-    
+
     $pdf->SetFont('Arial','',10);
     foreach($data as $d) {
         $pdf -> Cell(0, 4, $d['text'], 0, 1, 'L');
         $pdf -> Cell(0, 8, $d['answer'], 0, 1, 'L');
         //$pdf -> Ln();
     }
-    
+
     $s = $pdf->Output('S', $filename . '.pdf', true);
     file_put_contents($filename . '.pdf', $s);
 
@@ -114,15 +115,15 @@ function save_pdf($r) {
     $pdf->SetFont('Arial','B',16);
     $pdf -> Cell(0, 10, 'Opioid Risk Tool (' . $gender . ')', 0, 1, 'C');
     $pdf -> Cell(0, 10, '[ORT'.$g.']', 0, 1, 'C');
-    
+
     $pdf->SetFont('Arial','',12);
     $pdf -> Cell(64, 8, 'Name: ' . $fname , 0, 0, 'L');
     $pdf -> Cell(40, 8, 'Date: '. $fdate , 0, 1, 'L');
-    
+
 
     $pdf->SetFont('Arial','', 9);
     // table
-    
+
 
     // Family history of substance abuse (3)
     //      Alcohol
@@ -140,50 +141,50 @@ function save_pdf($r) {
     //      Bipolar disorder
     //      Schizophrenia
     //      Depression
-    
+
     $h = [
        ['Mark each box that applies', 60],
        ['', 64],
        ['Female', 14],
        ['Male', 14]
     ];
-    
+
     $d = [
-        ['1) Family history of substance abuse','Alcohol','['. 
+        ['1) Family history of substance abuse','Alcohol','['.
             rspd($data[0],'Female', $gender) .']',
                 '['. rspd($data[0],'Male', $gender) .']', false],
-        ['','Illegal drugs','['. rspd($data[1],'Female', $gender) .']','['. 
+        ['','Illegal drugs','['. rspd($data[1],'Female', $gender) .']','['.
             rspd($data[1],'Male', $gender) .']', false],
-        ['','Prescription drugs','['. rspd($data[2],'Female', $gender) .']','['. 
+        ['','Prescription drugs','['. rspd($data[2],'Female', $gender) .']','['.
             rspd($data[2],'Male', $gender) .']', false],
 
-        ['2) Personal history of substance abuse','Alcohol','['. 
+        ['2) Personal history of substance abuse','Alcohol','['.
             rspd($data[3],'Female', $gender) .']',
                 '['. rspd($data[3],'Male', $gender) .']', true],
-        ['','Illegal drugs','['. rspd($data[4],'Female', $gender) .']','['. 
+        ['','Illegal drugs','['. rspd($data[4],'Female', $gender) .']','['.
             rspd($data[4],'Male', $gender) .']', false],
-        ['','Prescription drugs','['. rspd($data[5],'Female', $gender) .']','['. 
+        ['','Prescription drugs','['. rspd($data[5],'Female', $gender) .']','['.
             rspd($data[5],'Male', $gender) .']', FALSE],
 
-        ['3) Age (mark box if 16-45 year','','['. 
+        ['3) Age (mark box if 16-45 year','','['.
             rspd($data[6],'Female', $gender) .']','['. rspd($data[6],'Male', $gender) .']', true],
-        ['4) History of preadolescent sexual abuse','','['. 
+        ['4) History of preadolescent sexual abuse','','['.
             rspd($data[7],'Female', $gender) .']','['. rspd($data[7],'Male', $gender) .']', true],
 
-        ['5) Psychologic Desease',"Attention deficit/hyperactivity disorder",'['. 
+        ['5) Psychologic Desease',"Attention deficit/hyperactivity disorder",'['.
             rspd($data[8],'Female', $gender) .']','['. rspd($data[8],'Male', $gender) .']', true],
-        ['',"Obsessive-compulsive disorder",'['. 
+        ['',"Obsessive-compulsive disorder",'['.
             rspd($data[8],'Female', $gender) .']','['. rspd($data[8],'Male', $gender) .']', false],
-        ['',"Bipolar disorder",'['. 
+        ['',"Bipolar disorder",'['.
             rspd($data[8],'Female', $gender) .']','['. rspd($data[8],'Male', $gender) .']', false],
-        ['',"Schizophrenia",'['. 
+        ['',"Schizophrenia",'['.
             rspd($data[8],'Female', $gender) .']','['. rspd($data[8],'Male', $gender) .']', false],
-        ['',"Depression",'['. 
+        ['',"Depression",'['.
             rspd($data[9],'Female', $gender) .']','['. rspd($data[9],'Male', $gender) .']', FALSE],
         ['_last','','','', TRUE]
     ];
-    
-    
+
+
     DrawTable($h, $d, $pdf);
 
     $s = $pdf->Output('S', $filename . '', true);

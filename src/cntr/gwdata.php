@@ -95,7 +95,9 @@ function save_pdf($r) {
     
     $sdur = "$min min $sec sec";
     
-    $filename = '../saved/'.$fname."_" .$fdate;
+    $dd = date_create();
+    $ddate = date_format($dd, "Ymd-His");
+    $filename = '../saved/'.$fname."_" .$ddate;
     //file_put_contents($filename, print_r($data,  true));
     $g = '';
     if($gender === '') {
@@ -116,7 +118,7 @@ function save_pdf($r) {
     $pdf->SetXY(10, 36);
     $pdf -> Cell(0, 0, 'Patient: ' . $fname, 0, 1, 'L');
     $pdf->SetXY(130, 36);
-    $pdf -> Cell(0, 0, 'Provider: Cheryle Hart MD', 0, 1, 'L');
+    $pdf -> Cell(0, 0, 'Provider: RES Physical Medicine and Rehab', 0, 1, 'L');
 
     $pdf->SetXY(10, 40);
     $pdf -> Cell(0, 0, 'Location: Main Office', 0, 1, 'L');

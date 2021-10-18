@@ -31,8 +31,11 @@
 
     <div v-if="state<1+qLen">
     <div class="inputs" v-if="show_inputs">
-        <label for="g_name">Patient </label>
+        <label for="g_name">First name </label>
         <input type="text" id="g_name" name="fname" v-model="fname" style="margin: 0 1em;"
+            v-validate="'required'"/>
+        <label for="g_lastname">Last name </label>
+        <input type="text" id="g_lastname" name="lastname" v-model="lastname" style="margin: 0 1em;"
             v-validate="'required'"/>
         <span v-if="show_date">
         <label for="g_date">Date </label>
@@ -100,6 +103,7 @@ export default {
             pdffiles: [],
             state: 1,
             fname: '',
+            lastname: '',
             fdate: '',
             gender: '',
             startt: 0,
@@ -179,7 +183,7 @@ export default {
     },
     methods: {
         hideinputs: function() {
-            if(this.gender === '' || this.fname === '') {
+            if(this.gender === '' || this.fname === '' || this.lastname === '') {
                 Vue.dialog.alert('Please type Name and choose gender');
                 return;
             }
@@ -196,6 +200,10 @@ export default {
                 return;
             }
             if(this.fname === '') {
+                Vue.dialog.alert('Please enter your name');
+                return;
+            }
+            if(this.lastname === '') {
                 Vue.dialog.alert('Please enter your name');
                 return;
             }
@@ -250,6 +258,7 @@ export default {
 
                     this.qData,
                     this.fname,
+                    this.lastname,
                     this.fdate,
                     this.gender,
                     this.endt - this.startt,
@@ -275,6 +284,7 @@ export default {
             this.show_inputs = true;
             this.state = 1;
             this.fname = '';
+            this.lastname = '';
             this.fdate = '';
             this.gender = '';
             this.qData.map(d => d.answer = false);

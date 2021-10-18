@@ -85,6 +85,7 @@ function rspd($x, $g, $gn) {
 
 function save_pdf($r) {
     $fname = $r['fname'];
+    $lastname = $r['lastname'];
     $fdate = $r['fdate'];
     $data = $r['data'];
     $gender = $r['gender'];
@@ -97,7 +98,7 @@ function save_pdf($r) {
     
     $dd = date_create();
     $ddate = date_format($dd, "Ymd-His");
-    $filename = '../saved/'.$fname."_" .$ddate;
+    $filename = '../saved/'.$lastname."_" .$fname."_".$ddate;
     //file_put_contents($filename, print_r($data,  true));
     $g = '';
     if($gender === '') {
@@ -116,7 +117,7 @@ function save_pdf($r) {
     $pdf->SetFont('Arial','', 8);
 
     $pdf->SetXY(10, 36);
-    $pdf -> Cell(0, 0, 'Patient: ' . $fname, 0, 1, 'L');
+    $pdf -> Cell(0, 0, 'Patient: ' . $fname . " " . $lastname, 0, 1, 'L');
     $pdf->SetXY(130, 36);
     $pdf -> Cell(0, 0, 'Provider: RES Physical Medicine and Rehab', 0, 1, 'L');
 

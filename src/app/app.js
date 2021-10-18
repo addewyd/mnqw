@@ -38,14 +38,16 @@ application.prototype.init = async function() {
 
 // .............................................................................
 
-application.prototype.save = async function(data, fname, fdate, gender, dur, score) {
+application.prototype.save = async function(data, fname, lastname, fdate, gender, dur, score) {
     //var d =  data.map(el => {return el.answer});
     var fn = Utils.escape_RegExp(fname);
+    var ln = Utils.escape_RegExp(lastname);
     var fd = Utils.escape_RegExp(fdate);
 
     var p = {
         data: data,
         fname: fn,
+        lastname: ln,
         fdate: fd,
         gender: gender,
         dur: dur,

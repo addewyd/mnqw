@@ -97,6 +97,7 @@ function save_pdf($r) {
     $sdur = "$min min $sec sec";
     
     $dd = date_create();
+    $fdate = date_format($dd, "Y-m-d");
     $ddate = date_format($dd, "Ymd-His");
     $filename = '../saved/'.$lastname."_" .$fname."_".$ddate;
     //file_put_contents($filename, print_r($data,  true));
@@ -128,7 +129,7 @@ function save_pdf($r) {
 
 
     $pdf->SetXY(10, 44);
-    $pdf -> Cell(0, 0, 'Started: ' . $ddate, 0, 1, 'L');
+    $pdf -> Cell(0, 0, 'Started: ' . $fdate, 0, 1, 'L');
     $pdf->SetXY(130, 44);
     $pdf -> Cell(0, 0, 'Test Duration: ' . $sdur, 0, 1, 'L');
 

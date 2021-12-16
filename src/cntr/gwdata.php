@@ -128,7 +128,7 @@ function save_pdf($r) {
 
 
     $pdf->SetXY(10, 44);
-    $pdf -> Cell(0, 0, 'Started: ' . $fdate, 0, 1, 'L');
+    $pdf -> Cell(0, 0, 'Started: ' . $ddate, 0, 1, 'L');
     $pdf->SetXY(130, 44);
     $pdf -> Cell(0, 0, 'Test Duration: ' . $sdur, 0, 1, 'L');
 
